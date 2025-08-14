@@ -83,10 +83,10 @@ allprojects {
 apply plugin: 'com.android.application'
 apply plugin: 'atak-takdev-plugin'
 apply from: "../gradle/typst.gradle"
+apply plugin: 'org.jetbrains.kotlin.android'
 
 
- 
-// The supportedFlavors list is an example configuration.  FMS variants can be added and defined via an 
+// The supportedFlavors list is an example configuration.  FMS variants can be added and defined via an
 // ISO tricode (xyz is an example and not a real country code).   The ISO tricode can be found here
 // Please see the A-3 in https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
 
@@ -250,6 +250,9 @@ android {
         abortOnError true
         checkReleaseBuilds true
     }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
 }
 
 afterEvaluate {
@@ -289,6 +292,7 @@ def getCommandFlavor() {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: '*.jar')
+    implementation 'androidx.core:core-ktx:1.17.0'
 }
 
 configurations.all {
