@@ -1,5 +1,5 @@
 
-package com.atakmap.android.plugintemplate.plugin;
+package net.peakresponse.atak.plugin;
 
 import android.content.Context;
 

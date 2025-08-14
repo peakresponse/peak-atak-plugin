@@ -106,7 +106,7 @@ def supportedFlavors =
 
 android {
     compileSdk 35
-    namespace 'com.atakmap.android.plugintemplate.plugin'
+    namespace 'net.peakresponse.atak.plugin'
 
     buildFeatures {
         buildConfig = true

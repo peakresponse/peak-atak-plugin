@@ -1,5 +1,5 @@
 
-package com.atakmap.android.test;
+package net.peakresponse.atak.test;
 
 import static org.junit.Assert.*;
 
