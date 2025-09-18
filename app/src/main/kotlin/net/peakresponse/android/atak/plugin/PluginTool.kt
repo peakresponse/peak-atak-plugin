@@ -1,8 +1,9 @@
-package net.peakresponse.atak.plugin
+package net.peakresponse.android.atak.plugin
 
 import android.content.Context
 import com.atak.plugins.impl.AbstractPluginTool
 import gov.tak.api.util.Disposable
+import net.peakresponse.atak.plugin.R
 
 class PluginTool(context: Context): AbstractPluginTool(
     context,

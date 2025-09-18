@@ -1,7 +1,4 @@
-package net.peakresponse.atak.test
-
-import org.junit.Assert.*
-import org.junit.Test
+package net.peakresponse.android.atak.test
 
 class ExampleTest {
     @Test

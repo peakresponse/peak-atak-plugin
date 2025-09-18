@@ -1,4 +1,4 @@
-package net.peakresponse.atak.plugin
+package net.peakresponse.android.atak.plugin
 
 import android.content.Context
 import android.content.Intent
@@ -7,6 +7,7 @@ import com.atak.plugins.impl.PluginLayoutInflater
 import com.atakmap.android.dropdown.DropDown
 import com.atakmap.android.dropdown.DropDownReceiver
 import com.atakmap.android.maps.MapView
+import net.peakresponse.atak.plugin.R
 
 class PluginDropDownReceiver(
     mapView: MapView,
@@ -35,7 +36,7 @@ class PluginDropDownReceiver(
                     unhideDropDown()
                     return
                 }
-                showDropDown(view, HALF_WIDTH, FULL_HEIGHT, FULL_WIDTH, HALF_HEIGHT, false, this)
+                showDropDown(view, THIRD_WIDTH, FULL_HEIGHT, FULL_WIDTH, HALF_HEIGHT, false, this)
             }
         }
     }

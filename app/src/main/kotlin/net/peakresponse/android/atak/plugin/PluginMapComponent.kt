@@ -1,10 +1,11 @@
-package net.peakresponse.atak.plugin
+package net.peakresponse.android.atak.plugin
 
 import android.content.Context
 import android.content.Intent
 import com.atakmap.android.dropdown.DropDownMapComponent
 import com.atakmap.android.ipc.AtakBroadcast.DocumentedIntentFilter
 import com.atakmap.android.maps.MapView
+import net.peakresponse.atak.plugin.R
 
 class PluginMapComponent: DropDownMapComponent() {
     companion object {
