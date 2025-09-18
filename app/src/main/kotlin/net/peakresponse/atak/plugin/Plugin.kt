@@ -14,7 +14,7 @@ import gov.tak.api.ui.ToolbarItem
 import gov.tak.api.ui.ToolbarItemAdapter
 import gov.tak.platform.marshal.MarshalManager
 
-class PluginTemplate(serviceController: IServiceController) : IPlugin {
+class Plugin(serviceController: IServiceController) : IPlugin {
     var serviceController: IServiceController?
     var pluginContext: Context? = null
     var uiService: IHostUIService?
