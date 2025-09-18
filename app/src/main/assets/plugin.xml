@@ -4,7 +4,7 @@
 
     <extension
         type="gov.tak.api.plugin.IPlugin"
-        impl="com.atakmap.android.plugintemplate.plugin.PluginTemplate"
+        impl="net.peakresponse.atak.plugin.Plugin"
         singleton="true" />
 
 </plugin>
