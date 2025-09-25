@@ -68,12 +68,14 @@ class PluginDropDownReceiver(
                 when (state) {
                     PluginState.STATE_INIT -> {
                         CoroutineScope(Dispatchers.IO).launch {
-                            val response = PRAppData.me()
+                            val response = PRAppData.me(pluginContext)
                             if (response.isSuccessful) {
-                                Log.d(TAG, "Success")
+                                state = PluginState.STATE_AUTHENTICATED
+                                withContext(Dispatchers.Main) {
+                                    mainDropDown.show()
+                                }
                             } else {
                                 state = PluginState.STATE_UNAUTHENTICATED
-                                Log.d(TAG, "Not logged in, code=" + response.code())
                                 withContext(Dispatchers.Main) {
                                     loginDropDown.show()
                                 }

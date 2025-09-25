@@ -66,9 +66,13 @@ class LoginDropDownReceiver(
             spinner.visibility = View.VISIBLE
             CoroutineScope(Dispatchers.IO).launch {
                 val response =
-                    PRAppData.login(emailField.text.toString(), passwordField.text.toString())
+                    PRAppData.login(
+                        pluginContext,
+                        emailField.text.toString(),
+                        passwordField.text.toString()
+                    )
                 if (response.isSuccessful) {
-                    val response = PRAppData.me()
+                    val response = PRAppData.me(pluginContext)
                     if (response.isSuccessful) {
                         Log.d(TAG, "Success Response = $response")
                         AtakBroadcast.getInstance().sendBroadcast(

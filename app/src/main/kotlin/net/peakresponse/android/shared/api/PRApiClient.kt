@@ -1,13 +1,18 @@
 package net.peakresponse.android.shared.api
 
+import android.content.Context
+import java.net.CookieManager
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import net.gotev.cookiestore.SharedPreferencesCookieStore
+import okhttp3.JavaNetCookieJar
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.Response
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Body
 
 import net.peakresponse.android.shared.models.Agency
 import net.peakresponse.android.shared.models.Assignment
@@ -15,9 +20,7 @@ import net.peakresponse.android.shared.models.Scene
 import net.peakresponse.android.shared.models.User
 import net.peakresponse.android.shared.models.Vehicle
 import net.peakresponse.android.atak.plugin.BuildConfig
-import okhttp3.JavaNetCookieJar
-import retrofit2.http.Body
-import java.net.CookieManager
+import java.net.CookiePolicy
 
 class Me(
     @SingleOrList val User: List<User>,
@@ -36,11 +39,17 @@ interface PRApiClientInterface {
 }
 
 object PRApiClient {
+    private const val TAG = "PRApiClient"
     private var instance: PRApiClientInterface? = null
 
-    fun getInstance(): PRApiClientInterface {
+    fun getInstance(context: Context): PRApiClientInterface {
         if (instance == null) {
-            val cookieJar = JavaNetCookieJar(CookieManager())
+            val cookieJar = JavaNetCookieJar(
+                CookieManager(
+                    SharedPreferencesCookieStore(context, TAG),
+                    CookiePolicy.ACCEPT_ALL
+                )
+            )
             val client = OkHttpClient.Builder()
                 .cookieJar(cookieJar)
                 .addNetworkInterceptor({ chain ->
