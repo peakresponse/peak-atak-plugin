@@ -1,6 +1,5 @@
 package net.peakresponse.android.atak.plugin
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.view.View
@@ -9,17 +8,16 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import com.atak.plugins.impl.PluginLayoutInflater
 import com.atakmap.android.dropdown.DropDownReceiver
+import com.atakmap.android.ipc.AtakBroadcast
 import com.atakmap.android.maps.MapView
-import com.atakmap.android.util.TakAlertDialog
 import com.atakmap.coremap.log.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
 import net.peakresponse.android.shared.PRAppData
-import net.peakresponse.atak.plugin.R
+import net.peakresponse.android.atak.plugin.R
 
 class LoginDropDownReceiver(
     mapView: MapView,
@@ -28,6 +26,7 @@ class LoginDropDownReceiver(
 
     companion object {
         const val TAG = "LoginDropDownReceiver"
+        public const val SET_AUTHENTICATED = "net.peakresponse.android.atak.SET_AUTHENTICATED"
     }
 
     private val view: View
@@ -72,6 +71,10 @@ class LoginDropDownReceiver(
                     val response = PRAppData.me()
                     if (response.isSuccessful) {
                         Log.d(TAG, "Success Response = $response")
+                        AtakBroadcast.getInstance().sendBroadcast(
+                            Intent()
+                                .setAction(SET_AUTHENTICATED)
+                        )
                         return@launch
                     }
                 }

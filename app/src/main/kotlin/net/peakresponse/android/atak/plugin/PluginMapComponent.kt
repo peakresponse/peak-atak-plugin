@@ -5,7 +5,7 @@ import android.content.Intent
 import com.atakmap.android.dropdown.DropDownMapComponent
 import com.atakmap.android.ipc.AtakBroadcast.DocumentedIntentFilter
 import com.atakmap.android.maps.MapView
-import net.peakresponse.atak.plugin.R
+import net.peakresponse.android.atak.plugin.R
 
 class PluginMapComponent : DropDownMapComponent() {
     companion object {
@@ -23,6 +23,10 @@ class PluginMapComponent : DropDownMapComponent() {
         dropDown = PluginDropDownReceiver(mapView, context)
         val filter = DocumentedIntentFilter()
         filter.addAction(PluginDropDownReceiver.SHOW_PLUGIN, "Show the Plugin drop-down")
+        filter.addAction(
+            LoginDropDownReceiver.SET_AUTHENTICATED,
+            "Sets the Plugin state to AUTHENTICATED"
+        )
         registerDropDownReceiver(dropDown, filter)
     }
 

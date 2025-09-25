@@ -13,8 +13,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+import net.peakresponse.android.atak.plugin.R
 import net.peakresponse.android.shared.PRAppData
-import net.peakresponse.atak.plugin.R
 
 enum class PluginState {
     STATE_INIT,
@@ -28,16 +28,20 @@ class PluginDropDownReceiver(
 ) : DropDownReceiver(mapView), DropDown.OnStateListener {
     companion object {
         private const val TAG = "PluginDropDownReceiver"
-        public const val SHOW_PLUGIN = "net.peakresponse.atak.SHOW_PLUGIN"
+        public const val SHOW_PLUGIN = "net.peakresponse.android.atak.SHOW_PLUGIN"
     }
 
     private var state: PluginState = PluginState.STATE_INIT
     private val view: View
     private val loginDropDown: LoginDropDownReceiver
+    private val mainDropDown: MainDropDownReceiver
 
     init {
-        view = PluginLayoutInflater.inflate(pluginContext, R.layout.main_layout, null)
+        view = PluginLayoutInflater.inflate(pluginContext, R.layout.interstitial_layout, null)
+        setRetain(false)
         loginDropDown = LoginDropDownReceiver(mapView, pluginContext)
+        loginDropDown.setRetain(false)
+        mainDropDown = MainDropDownReceiver(mapView, pluginContext)
     }
 
     override fun disposeImpl() {
@@ -51,6 +55,11 @@ class PluginDropDownReceiver(
         Log.d(TAG, "onReceive state=$state action=$action isClosed=$isClosed")
 
         when (action) {
+            LoginDropDownReceiver.SET_AUTHENTICATED -> {
+                state = PluginState.STATE_AUTHENTICATED
+                mainDropDown.show()
+            }
+
             SHOW_PLUGIN -> {
                 if (!isClosed) {
                     unhideDropDown()
@@ -87,7 +96,7 @@ class PluginDropDownReceiver(
                     }
 
                     PluginState.STATE_AUTHENTICATED -> {
-                        // noop
+                        mainDropDown.show()
                     }
                 }
             }

@@ -14,7 +14,7 @@ import net.peakresponse.android.shared.models.Assignment
 import net.peakresponse.android.shared.models.Scene
 import net.peakresponse.android.shared.models.User
 import net.peakresponse.android.shared.models.Vehicle
-import net.peakresponse.atak.plugin.BuildConfig
+import net.peakresponse.android.atak.plugin.BuildConfig
 import okhttp3.JavaNetCookieJar
 import retrofit2.http.Body
 import java.net.CookieManager
