@@ -7,7 +7,7 @@ import com.atakmap.android.ipc.AtakBroadcast.DocumentedIntentFilter
 import com.atakmap.android.maps.MapView
 import net.peakresponse.atak.plugin.R
 
-class PluginMapComponent: DropDownMapComponent() {
+class PluginMapComponent : DropDownMapComponent() {
     companion object {
         private const val TAG = "PluginMapComponent"
     }

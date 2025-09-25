@@ -4,4 +4,11 @@
     <string name="app_name">Peak Response</string>
     <!-- description -->
     <string name="app_desc">Peak Response is a real-time MCI coordination and situational awareness tool for EMS responders on and off the scene.</string>
+
+    <string name="button_ok">OK</string>
+    <string name="button_submit">Submit</string>
+
+    <string name="main_email">Email:</string>
+    <string name="main_password">Password:</string>
+    <string name="invalid_credentials">Invalid email and/or password.</string>
 </resources>

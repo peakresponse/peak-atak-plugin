@@ -5,7 +5,7 @@ import com.atak.plugins.impl.AbstractPluginTool
 import gov.tak.api.util.Disposable
 import net.peakresponse.atak.plugin.R
 
-class PluginTool(context: Context): AbstractPluginTool(
+class PluginTool(context: Context) : AbstractPluginTool(
     context,
     context.getString(R.string.app_name),
     context.getString(R.string.app_desc),
