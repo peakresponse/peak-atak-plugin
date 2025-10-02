@@ -1,4 +1,4 @@
-package net.peakresponse.atak.plugin
+package net.peakresponse.android.atak.plugin
 
 import android.content.Context
 import java.io.File

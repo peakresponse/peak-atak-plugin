@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Application theme. -->
-    <style name="ATAKPluginTheme" parent="@android:style/Theme.Holo">
+    <style name="ATAKPluginTheme" parent="Theme.AppCompat">
         <item name="android:textAppearanceLargePopupMenu">@style/PopupMenuTextAppearance</item>
         <item name="android:buttonStyle">@android:style/Widget.Button</item>
         <item name="android:imageButtonStyle">@android:style/Widget.Button</item>
@@ -54,7 +54,7 @@
     </style>
 
     <!-- Application theme. -->
-    <style name="AppTheme" parent="@android:style/Theme.Holo">
+    <style name="AppTheme" parent="Theme.AppCompat">
         <item name="android:buttonStyle">@android:style/Widget.Button</item>
         <item name="android:imageButtonStyle">@android:style/Widget.Button</item>
         <item name="android:buttonStyleToggle">@android:style/Widget.Button</item>
@@ -83,7 +83,7 @@
         <item name="android:dropDownWidth">wrap_content</item>
         <item name="android:gravity">left|center_vertical</item>
     </style>
- 
+
     <style name="ATAKSpinnerDropDownItem" parent="@style/ATAKSpinnerItem">
         <item name="android:paddingStart">@dimen/auto_margin</item>
     </style>
@@ -106,7 +106,6 @@
     <style name="PopupMenuTextAppearance" parent="android:TextAppearance.Large">
         <item name="android:textColor">@color/white</item>
     </style>
-
 
 
     <!-- ==== Style for ISRV Dark Buttons ==== -->
