@@ -20,13 +20,16 @@ import net.peakresponse.android.shared.models.Scene
 import net.peakresponse.android.shared.models.User
 import net.peakresponse.android.shared.models.Vehicle
 import net.peakresponse.android.atak.plugin.BuildConfig
+import okhttp3.Request
+import okhttp3.WebSocket
+import okhttp3.WebSocketListener
 import java.net.CookiePolicy
 
 class Me(
-    @SingleOrList val User: List<User>,
+    val User: User,
+    val Assignment: Assignment?,
+    val Vehicle: Vehicle?,
     @SingleOrList val Agency: List<Agency>,
-    @SingleOrList val Assignment: List<Assignment>,
-    @SingleOrList val Vehicle: List<Vehicle>,
     @SingleOrList val Scene: List<Scene>
 )
 
@@ -40,17 +43,18 @@ interface PRApiClientInterface {
 
 object PRApiClient {
     private const val TAG = "PRApiClient"
+    private var client: OkHttpClient? = null
     private var instance: PRApiClientInterface? = null
 
-    fun getInstance(context: Context): PRApiClientInterface {
-        if (instance == null) {
+    fun getClient(context: Context): OkHttpClient {
+        if (client == null) {
             val cookieJar = JavaNetCookieJar(
                 CookieManager(
                     SharedPreferencesCookieStore(context, TAG),
                     CookiePolicy.ACCEPT_ALL
                 )
             )
-            val client = OkHttpClient.Builder()
+            client = OkHttpClient.Builder()
                 .cookieJar(cookieJar)
                 .addNetworkInterceptor({ chain ->
                     var request = chain.request()
@@ -69,18 +73,41 @@ object PRApiClient {
                     return@addNetworkInterceptor chain.proceed(request)
                 })
                 .build()
+        }
+        return client!!
+    }
+
+    fun getInstance(context: Context): PRApiClientInterface {
+        if (instance == null) {
             val moshi = Moshi.Builder()
                 .add(SingleOrListAdapterFactory)
                 .addLast(KotlinJsonAdapterFactory())
                 .build()
             val builder = Retrofit.Builder()
                 .baseUrl(BuildConfig.API_URL)
-                .client(client)
+                .client(getClient(context))
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .build()
 
             instance = builder.create(PRApiClientInterface::class.java)
         }
         return instance!!
+    }
+
+    fun connectIncidents(
+        context: Context,
+        assignmentId: String,
+        listener: WebSocketListener
+    ): WebSocket {
+        val request = Request.Builder()
+            .url(
+                "${BuildConfig.API_URL}/incidents?assignmentId=${assignmentId}".replace(
+                    "https://",
+                    "wss://"
+                )
+            )
+            .build()
+        val client = getClient(context)
+        return client.newWebSocket(request, listener)
     }
 }

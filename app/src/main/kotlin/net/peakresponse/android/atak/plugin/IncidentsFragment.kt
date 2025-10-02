@@ -25,4 +25,8 @@ class IncidentsFragment(
             PluginLayoutInflater.inflate(pluginContext, R.layout.incidents_layout, container, false)
         return view
     }
+
+    override fun onStart() {
+        super.onStart()
+    }
 }
