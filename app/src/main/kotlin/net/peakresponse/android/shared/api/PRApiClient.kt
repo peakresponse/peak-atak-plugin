@@ -93,7 +93,7 @@ interface PRApiClientInterface {
 }
 
 object PRApiClient {
-    private const val TAG = "PRApiClient"
+    private const val TAG = "net.peakresponse.android.shared.api.PRApiClient"
     private var client: OkHttpClient? = null
     private var instance: PRApiClientInterface? = null
 

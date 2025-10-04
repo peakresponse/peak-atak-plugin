@@ -9,7 +9,7 @@ import net.peakresponse.android.atak.plugin.R
 
 class PluginMapComponent : DropDownMapComponent() {
     companion object {
-        private const val TAG = "PluginMapComponent"
+        private const val TAG = "net.peakresponse.android.atak.plugin.PluginMapComponent"
     }
 
     private var context: Context? = null

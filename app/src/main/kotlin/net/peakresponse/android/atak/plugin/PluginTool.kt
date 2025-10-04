@@ -14,7 +14,7 @@ class PluginTool(context: Context) : AbstractPluginTool(
 ), Disposable {
 
     companion object {
-        private const val TAG = "PluginTool"
+        private const val TAG = "net.peakresponse.android.atak.plugin.PluginTool"
     }
 
     override fun dispose() {

@@ -9,7 +9,7 @@ import okhttp3.WebSocketListener
 import retrofit2.Response
 
 object PRAppData {
-    private const val TAG = "PRAppData"
+    private const val TAG = "net.peakresponse.android.shared.PRAppData"
     private var incidentsSocket: WebSocket? = null
 
     suspend fun me(context: Context): Response<PRPayload> {

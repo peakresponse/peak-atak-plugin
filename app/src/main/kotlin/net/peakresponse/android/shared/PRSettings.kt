@@ -1,14 +1,16 @@
 package net.peakresponse.android.shared
 
 import android.content.Context
-import android.content.SharedPreferences
-import com.atakmap.android.preference.AtakPreferences
 import androidx.core.content.edit
 
 class PRSettings(
     private val context: Context
 ) {
-    private val prefs = AtakPreferences.getInstance(context).sharedPrefs
+    companion object {
+        const val TAG = "net.peakresponse.android.shared.PRSettings"
+    }
+
+    private val prefs = context.getSharedPreferences(TAG, Context.MODE_PRIVATE)
 
     var userId: String?
         get() = prefs.getString("userId", null)
