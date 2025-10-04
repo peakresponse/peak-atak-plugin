@@ -5,10 +5,10 @@ import androidx.room.PrimaryKey
 import java.util.Date
 
 @Entity
-data class Assignment(
+data class State(
     @PrimaryKey val id: String,
     val createdAt: Date?,
     val updatedAt: Date?,
-    val userId: String?,
-    val vehicleId: String?
+    val name: String?,
+    val abbr: String?
 )

@@ -2,8 +2,8 @@ package net.peakresponse.android.shared.models
 
 import androidx.room.Entity
 import androidx.room.Ignore
-import androidx.room.Index
 import androidx.room.PrimaryKey
+import java.util.Date
 
 class AwsCredentials(
     val AccessKeyId: String,
@@ -11,12 +11,11 @@ class AwsCredentials(
     val SessionToken: String,
 )
 
-@Entity(
-    indices = [Index(value = ["id"], unique = true)]
-)
+@Entity
 data class User(
-    @PrimaryKey(autoGenerate = true) val rowid: Int = 0,
-    val id: String,
+    @PrimaryKey val id: String,
+    val createdAt: Date?,
+    val updatedAt: Date?,
     val firstName: String?,
     val lastName: String?,
     val position: String?,

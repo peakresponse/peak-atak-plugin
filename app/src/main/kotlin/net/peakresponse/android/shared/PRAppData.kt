@@ -1,9 +1,8 @@
 package net.peakresponse.android.shared
 
 import android.content.Context
-import com.atakmap.android.preference.AtakPreferences
 import com.atakmap.coremap.log.Log
-import net.peakresponse.android.shared.api.Me
+import net.peakresponse.android.shared.api.PRPayload
 import net.peakresponse.android.shared.api.PRApiClient
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
@@ -13,9 +12,9 @@ object PRAppData {
     private const val TAG = "PRAppData"
     private var incidentsSocket: WebSocket? = null
 
-    suspend fun me(context: Context): Response<Me> {
+    suspend fun me(context: Context): Response<PRPayload> {
         val response = PRApiClient.getInstance(context).me()
-        Log.d(TAG, "response=$response")
+        Log.d(TAG, "response=$response, body=${response.body()}")
         response.body()?.let {
             Log.d(TAG, "${it.User}")
             Log.d(TAG, "${it.Agency}")

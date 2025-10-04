@@ -1,15 +1,14 @@
 package net.peakresponse.android.shared.models
 
 import androidx.room.Entity
-import androidx.room.Index
 import androidx.room.PrimaryKey
+import java.util.Date
 
-@Entity(
-    indices = [Index(value = ["id"], unique = true)]
-)
+@Entity
 data class Vehicle(
-    @PrimaryKey(autoGenerate = true) val rowid: Int = 0,
-    val id: String,
+    @PrimaryKey val id: String,
+    val createdAt: Date?,
+    val updatedAt: Date?,
     val number: String?,
     val callSign: String?,
     val type: String?,

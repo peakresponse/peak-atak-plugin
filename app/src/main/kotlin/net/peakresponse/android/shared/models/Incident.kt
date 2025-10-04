@@ -5,14 +5,17 @@ import androidx.room.PrimaryKey
 import java.util.Date
 
 @Entity
-data class Agency(
+data class Incident(
     @PrimaryKey val id: String,
     val createdAt: Date?,
     val updatedAt: Date?,
-    val regionId: String?,
-    val stateId: String?,
-    val stateUniqueId: String?,
+    val createdById: String?,
+    val eventId: String?,
+    val psapId: String?,
+    val sceneId: String?,
     val number: String?,
-    val name: String?,
-    val isEventsOnly: Boolean?
+    val sort: Long?,
+    val calledAt: Date?,
+    val dispatchNotifiedAt: Date?,
+    val reportsCount: Int?
 )

@@ -5,14 +5,17 @@ import androidx.room.PrimaryKey
 import java.util.Date
 
 @Entity
-data class Agency(
+data class Venue(
     @PrimaryKey val id: String,
     val createdAt: Date?,
     val updatedAt: Date?,
-    val regionId: String?,
-    val stateId: String?,
-    val stateUniqueId: String?,
-    val number: String?,
+    val type: String?,
     val name: String?,
-    val isEventsOnly: Boolean?
+    val address1: String?,
+    val address2: String?,
+    val cityId: String?,
+    val countyId: String?,
+    val stateId: String?,
+    val zipCode: String?,
+    val regionId: String?
 )
