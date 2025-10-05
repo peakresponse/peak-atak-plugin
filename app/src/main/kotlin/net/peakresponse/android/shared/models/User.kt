@@ -21,4 +21,14 @@ data class User(
     val position: String?,
     val iconUrl: String?,
     @Ignore val awsCredentials: AwsCredentials?
-)
+) {
+    constructor(
+        id: String,
+        createdAt: Date?,
+        updatedAt: Date?,
+        firstName: String?,
+        lastName: String?,
+        position: String?,
+        iconUrl: String?
+    ) : this(id, createdAt, updatedAt, firstName, lastName, position, iconUrl, null)
+}

@@ -23,20 +23,19 @@ object PRAppData {
 
     fun getDb(context: Context): RoomDatabase {
         if (db == null) {
-            db = Room.databaseBuilder(context, PRAppDatabase::class.java, TAG).build()
+            db = Room.databaseBuilder(context, PRAppDatabase::class.java, TAG)
+                .fallbackToDestructiveMigration(true)
+                .build()
         }
         return db!!
     }
 
     private val MODELS = arrayOf(
-        "Agency",
-        /*
-        "Assignment", "City", "Event", "Facility", "File", "Form", "History",
+        "Agency", "Assignment", "City", "Event", "Facility", "File", "Form", "History",
         "Medication", "Narrative", "Patient", "Procedure", "Region", "Response", "Situation",
         "State", "Time", "User", "Vehicle", "Venue", "Vital",
         "Disposition", "RegionAgency", "RegionFacility", "Responder", "Signature", "Scene",
         "Incident", "Dispatch", "Report"
-         */
     )
     private val PROPERTIES =
         MODELS.map { m -> PRPayload::class.memberProperties.first { it.name === m } }
