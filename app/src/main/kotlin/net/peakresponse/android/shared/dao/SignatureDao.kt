@@ -8,5 +8,5 @@ import net.peakresponse.android.shared.models.Signature
 @Dao
 abstract class SignatureDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertMany(users: List<Signature>)
+    abstract suspend fun insertMany(records: List<Signature>)
 }

@@ -1,14 +1,15 @@
 package net.peakresponse.android.shared
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.atakmap.coremap.log.Log
+import kotlinx.coroutines.runBlocking
 import net.peakresponse.android.shared.api.PRPayload
 import net.peakresponse.android.shared.api.PRApiClient
+import net.peakresponse.android.shared.api.PRWebSocketListener
 import net.peakresponse.android.shared.dao.PRAppDatabase
 import okhttp3.WebSocket
-import okhttp3.WebSocketListener
 import retrofit2.Response
 import kotlin.reflect.KFunction
 import kotlin.reflect.full.callSuspend
@@ -44,13 +45,12 @@ object PRAppData {
         payload?.let {
             val db = getDb(context)
             for (property in PROPERTIES) {
-                val value = property.call(payload)
+                val value = property.call(it)
                 val getDaoFn =
                     db::class.members.first { it.name == "get${property.name}Dao" } as KFunction<*>
                 val dao = getDaoFn.call(db)
                 val insertManyFn =
                     dao!!::class.members.first { it.name == "insertMany" } as KFunction<*>
-                insertManyFn.parameters.forEach { Log.d(TAG, "${it.name}: ${it.type}") }
                 insertManyFn.callSuspend(dao, value)
             }
         }
@@ -58,7 +58,18 @@ object PRAppData {
 
     suspend fun me(context: Context): Response<PRPayload> {
         val response = PRApiClient.getInstance(context).me()
-        handlePayload(context, response.body())
+        val payload = response.body()
+        handlePayload(context, payload)
+        payload?.let {
+            val settings = PRSettings(context)
+            settings.userId = it.User?.first()?.id
+            settings.regionId = it.Agency?.first()?.regionId
+            settings.agencyId = it.Agency?.first()?.id
+            settings.subdomain = it.Agency?.first()?.subdomain
+            settings.assignmentId = it.Assignment?.first()?.id
+            settings.vehicleId = it.Vehicle?.first()?.id
+            settings.sceneId = it.Scene?.first()?.id
+        }
         return response
     }
 
@@ -72,17 +83,19 @@ object PRAppData {
     fun connectIncidents(context: Context, assignmentId: String) {
         incidentsSocket?.cancel()
         incidentsSocket =
-            PRApiClient.connectIncidents(context, assignmentId, object : WebSocketListener() {
+            PRApiClient.connectIncidents(context, assignmentId, object : PRWebSocketListener() {
                 override fun onOpen(webSocket: WebSocket, response: okhttp3.Response) {
-
+                    Log.d(TAG, "onOpen")
                 }
 
-                override fun onMessage(webSocket: WebSocket, text: String) {
-
+                override fun onMessage(webSocket: WebSocket, payload: PRPayload?) {
+                    runBlocking {
+                        handlePayload(context, payload)
+                    }
                 }
 
                 override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-
+                    Log.d(TAG, "onClosed")
                 }
 
                 override fun onFailure(
@@ -90,8 +103,13 @@ object PRAppData {
                     t: Throwable,
                     response: okhttp3.Response?
                 ) {
-
+                    Log.d(TAG, "onFailure t=$t")
                 }
             })
+    }
+
+    fun disconnectIncidents() {
+        incidentsSocket?.cancel()
+        incidentsSocket = null
     }
 }

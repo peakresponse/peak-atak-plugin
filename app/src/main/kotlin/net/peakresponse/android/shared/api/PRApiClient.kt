@@ -1,11 +1,13 @@
 package net.peakresponse.android.shared.api
 
 import android.content.Context
+import android.util.Log
 import java.net.CookieManager
 import java.util.Date
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
+import kotlinx.coroutines.runBlocking
 import net.gotev.cookiestore.SharedPreferencesCookieStore
 import okhttp3.JavaNetCookieJar
 import okhttp3.OkHttpClient
@@ -17,6 +19,9 @@ import retrofit2.http.POST
 import retrofit2.http.Body
 
 import net.peakresponse.android.atak.plugin.BuildConfig
+import net.peakresponse.android.shared.PRAppData
+import net.peakresponse.android.shared.PRAppData.handlePayload
+import net.peakresponse.android.shared.PRSettings
 import net.peakresponse.android.shared.models.Agency
 import net.peakresponse.android.shared.models.Assignment
 import net.peakresponse.android.shared.models.Scene
@@ -49,6 +54,7 @@ import net.peakresponse.android.shared.models.Vital
 import okhttp3.Request
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
+import okio.ByteString
 import java.net.CookiePolicy
 
 class PRPayload(
@@ -92,13 +98,19 @@ interface PRApiClientInterface {
     suspend fun login(@Body body: Map<String, String>): Response<Void>
 }
 
+abstract class PRWebSocketListener : WebSocketListener() {
+    abstract fun onMessage(webSocket: WebSocket, payload: PRPayload?)
+}
+
 object PRApiClient {
     private const val TAG = "net.peakresponse.android.shared.api.PRApiClient"
     private var client: OkHttpClient? = null
     private var instance: PRApiClientInterface? = null
+    private var moshi: Moshi? = null
 
     fun getClient(context: Context): OkHttpClient {
         if (client == null) {
+            val settings = PRSettings(context)
             val cookieJar = JavaNetCookieJar(
                 CookieManager(
                     SharedPreferencesCookieStore(context, TAG),
@@ -121,6 +133,12 @@ object PRApiClient {
                             .method(request.method, request.body)
                             .build()
                     }
+                    settings.subdomain?.let { subdomain ->
+                        request = request.newBuilder()
+                            .header("X-Agency-Subdomain", subdomain)
+                            .method(request.method, request.body)
+                            .build()
+                    }
                     return@addNetworkInterceptor chain.proceed(request)
                 })
                 .build()
@@ -130,15 +148,10 @@ object PRApiClient {
 
     fun getInstance(context: Context): PRApiClientInterface {
         if (instance == null) {
-            val moshi = Moshi.Builder()
-                .add(SingleOrListAdapterFactory)
-                .add(Date::class.java, Rfc3339DateJsonAdapter())
-                .addLast(KotlinJsonAdapterFactory())
-                .build()
             val builder = Retrofit.Builder()
                 .baseUrl(BuildConfig.API_URL)
                 .client(getClient(context))
-                .addConverterFactory(MoshiConverterFactory.create(moshi))
+                .addConverterFactory(MoshiConverterFactory.create(getMoshi()))
                 .build()
 
             instance = builder.create(PRApiClientInterface::class.java)
@@ -146,12 +159,26 @@ object PRApiClient {
         return instance!!
     }
 
+    fun getMoshi(): Moshi {
+        if (moshi == null) {
+            moshi = Moshi.Builder()
+                .add(SingleOrListAdapterFactory)
+                .add(Date::class.java, Rfc3339DateJsonAdapter())
+                .addLast(KotlinJsonAdapterFactory())
+                .build()
+        }
+        return moshi!!
+    }
+
     fun connectIncidents(
         context: Context,
         assignmentId: String,
-        listener: WebSocketListener
+        listener: PRWebSocketListener
     ): WebSocket {
+        val payloadAdapter = getMoshi().adapter<PRPayload>(PRPayload::class.java)
+        val settings = PRSettings(context)
         val request = Request.Builder()
+            .header("X-Agency-Subdomain", settings.subdomain ?: "")
             .url(
                 "${BuildConfig.API_URL}/incidents?assignmentId=${assignmentId}".replace(
                     "https://",
@@ -160,6 +187,37 @@ object PRApiClient {
             )
             .build()
         val client = getClient(context)
-        return client.newWebSocket(request, listener)
+        return client.newWebSocket(request, object : WebSocketListener() {
+            override fun onOpen(webSocket: WebSocket, response: okhttp3.Response) {
+                listener.onOpen(webSocket, response)
+            }
+
+            override fun onMessage(webSocket: WebSocket, text: String) {
+                listener.onMessage(webSocket, text)
+                payloadAdapter.fromJson(text)?.let { payload ->
+                    listener.onMessage(webSocket, payload)
+                }
+            }
+
+            override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
+                listener.onMessage(webSocket, bytes)
+            }
+
+            override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
+                listener.onClosing(webSocket, code, reason)
+            }
+
+            override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
+                listener.onClosed(webSocket, code, reason)
+            }
+
+            override fun onFailure(
+                webSocket: WebSocket,
+                t: Throwable,
+                response: okhttp3.Response?
+            ) {
+                listener.onFailure(webSocket, t, response)
+            }
+        })
     }
 }

@@ -8,5 +8,5 @@ import net.peakresponse.android.shared.models.History
 @Dao
 abstract class HistoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertMany(users: List<History>)
+    abstract suspend fun insertMany(records: List<History>)
 }

@@ -10,17 +10,17 @@ import net.peakresponse.android.shared.models.CodeListSection
 @Dao
 abstract class CodeListDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertMany(users: List<CodeList>)
+    abstract suspend fun insertMany(records: List<CodeList>)
 }
 
 @Dao
 abstract class CodeListSectionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertMany(users: List<CodeListSection>)
+    abstract suspend fun insertMany(records: List<CodeListSection>)
 }
 
 @Dao
 abstract class CodeListItemDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertMany(users: List<CodeListItem>)
+    abstract suspend fun insertMany(records: List<CodeListItem>)
 }

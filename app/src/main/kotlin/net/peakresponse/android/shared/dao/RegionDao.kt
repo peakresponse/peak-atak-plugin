@@ -10,17 +10,17 @@ import net.peakresponse.android.shared.models.RegionFacility
 @Dao
 abstract class RegionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertMany(users: List<Region>)
+    abstract suspend fun insertMany(records: List<Region>)
 }
 
 @Dao
 abstract class RegionAgencyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertMany(users: List<RegionAgency>)
+    abstract suspend fun insertMany(records: List<RegionAgency>)
 }
 
 @Dao
 abstract class RegionFacilityDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertMany(users: List<RegionFacility>)
+    abstract suspend fun insertMany(records: List<RegionFacility>)
 }

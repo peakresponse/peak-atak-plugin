@@ -8,5 +8,5 @@ import net.peakresponse.android.shared.models.Facility
 @Dao
 abstract class FacilityDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertMany(users: List<Facility>)
+    abstract suspend fun insertMany(records: List<Facility>)
 }

@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import com.atak.plugins.impl.PluginLayoutInflater
 
 import net.peakresponse.android.atak.plugin.R
+import net.peakresponse.android.shared.PRAppData
+import net.peakresponse.android.shared.PRSettings
 
 class IncidentsFragment(
     private val pluginContext: Context
@@ -28,5 +30,16 @@ class IncidentsFragment(
 
     override fun onStart() {
         super.onStart()
+        context?.let {
+            val settings = PRSettings(it)
+            settings.assignmentId?.let { assignmentId ->
+                PRAppData.connectIncidents(it, assignmentId)
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        PRAppData.disconnectIncidents()
     }
 }

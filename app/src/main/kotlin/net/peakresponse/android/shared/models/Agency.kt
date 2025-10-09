@@ -9,6 +9,7 @@ data class Agency(
     @PrimaryKey val id: String,
     val createdAt: Date?,
     val updatedAt: Date?,
+    val subdomain: String?,
     val regionId: String?,
     val stateId: String?,
     val stateUniqueId: String?,

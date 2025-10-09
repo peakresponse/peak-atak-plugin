@@ -8,5 +8,5 @@ import net.peakresponse.android.shared.models.Narrative
 @Dao
 abstract class NarrativeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertMany(users: List<Narrative>)
+    abstract suspend fun insertMany(records: List<Narrative>)
 }

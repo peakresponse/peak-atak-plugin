@@ -8,5 +8,5 @@ import net.peakresponse.android.shared.models.Response
 @Dao
 abstract class ResponseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertMany(users: List<Response>)
+    abstract suspend fun insertMany(records: List<Response>)
 }

@@ -160,7 +160,7 @@ class Converters {
         Vehicle::class,
         Venue::class,
         Vital::class
-    ], version = 2
+    ], version = 3
 )
 @TypeConverters(Converters::class)
 abstract class PRAppDatabase : RoomDatabase() {

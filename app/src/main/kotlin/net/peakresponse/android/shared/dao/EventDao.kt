@@ -8,5 +8,5 @@ import net.peakresponse.android.shared.models.Event
 @Dao
 abstract class EventDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertMany(users: List<Event>)
+    abstract suspend fun insertMany(records: List<Event>)
 }

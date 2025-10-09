@@ -8,5 +8,5 @@ import net.peakresponse.android.shared.models.Time
 @Dao
 abstract class TimeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertMany(users: List<Time>)
+    abstract suspend fun insertMany(records: List<Time>)
 }
