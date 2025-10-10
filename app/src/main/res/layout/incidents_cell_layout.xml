@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+    <TextView
+        android:id="@+id/incidentNumberLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="#12341234" />
+    <TextView
+        android:id="@+id/addressLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1875 Mission St\nSan Francisco, CA 94103" />
+    <TextView
+        android:id="@+id/timestampLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Oct 8, 2025    10:54 AM" />
+</LinearLayout>

@@ -1,1 +1,7 @@
 include ':app'
+
+sourceControl {
+    gitRepository("https://github.com/peakresponse/peak-android-prkit.git") {
+        producesModule("net.peakresponse.android.shared:prkit")
+    }
+}
