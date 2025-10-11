@@ -21,7 +21,7 @@ import net.peakresponse.android.shared.PRSettings
 
 class IncidentsCellHolder(
     view: View
-): RecyclerView.ViewHolder(view) {
+) : RecyclerView.ViewHolder(view) {
     val incidentNumberLabel: TextView
     val addressLabel: TextView
     val timestampLabel: TextView
@@ -57,12 +57,17 @@ class IncidentsFragment(
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = object: RecyclerView.Adapter<IncidentsCellHolder>() {
+        recyclerView.adapter = object : RecyclerView.Adapter<IncidentsCellHolder>() {
             override fun onCreateViewHolder(
                 parent: ViewGroup,
                 viewType: Int
             ): IncidentsCellHolder {
-                val view = PluginLayoutInflater.inflate(pluginContext, R.layout.incidents_cell_layout, parent, false)
+                val view = PluginLayoutInflater.inflate(
+                    pluginContext,
+                    R.layout.incidents_cell_layout,
+                    parent,
+                    false
+                )
                 return IncidentsCellHolder(view)
             }
 
