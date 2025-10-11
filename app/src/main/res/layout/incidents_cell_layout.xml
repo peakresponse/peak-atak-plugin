@@ -3,20 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@drawable/border_bottom"
     android:padding="20dp">
+
     <TextView
         android:id="@+id/incidentNumberLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="#12341234" />
+        android:textAppearance="@style/PRh2Bold"
+        android:textColor="@color/white" />
+
     <TextView
         android:id="@+id/addressLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="1875 Mission St\nSan Francisco, CA 94103" />
+        android:textAppearance="@style/PRh4"
+        android:textColor="@color/white" />
+
     <TextView
         android:id="@+id/timestampLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Oct 8, 2025    10:54 AM" />
+        android:textAppearance="@style/PRh4" />
 </LinearLayout>
