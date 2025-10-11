@@ -25,7 +25,7 @@ class LoginDropDownReceiver(
 ) : DropDownReceiver(mapView), View.OnClickListener {
 
     companion object {
-        const val TAG = "LoginDropDownReceiver"
+        const val TAG = "net.peakresponse.android.atak.plugin.LoginDropDownReceiver"
         public const val SET_AUTHENTICATED = "net.peakresponse.android.atak.SET_AUTHENTICATED"
     }
 
@@ -67,12 +67,12 @@ class LoginDropDownReceiver(
             CoroutineScope(Dispatchers.IO).launch {
                 val response =
                     PRAppData.login(
-                        pluginContext,
+                        mapView.context,
                         emailField.text.toString(),
                         passwordField.text.toString()
                     )
                 if (response.isSuccessful) {
-                    val response = PRAppData.me(pluginContext)
+                    val response = PRAppData.me(mapView.context)
                     if (response.isSuccessful) {
                         Log.d(TAG, "Success Response = $response")
                         AtakBroadcast.getInstance().sendBroadcast(

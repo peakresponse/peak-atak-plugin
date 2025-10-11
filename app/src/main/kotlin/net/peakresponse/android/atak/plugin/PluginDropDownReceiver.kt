@@ -2,6 +2,7 @@ package net.peakresponse.android.atak.plugin
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.view.View
 import com.atak.plugins.impl.PluginLayoutInflater
 import com.atakmap.android.dropdown.DropDown
@@ -13,8 +14,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-import net.peakresponse.android.atak.plugin.R
 import net.peakresponse.android.shared.PRAppData
+import net.peakresponse.android.shared.PRSettings
 
 enum class PluginState {
     STATE_INIT,
@@ -27,8 +28,8 @@ class PluginDropDownReceiver(
     private val pluginContext: Context
 ) : DropDownReceiver(mapView), DropDown.OnStateListener {
     companion object {
-        private const val TAG = "PluginDropDownReceiver"
-        public const val SHOW_PLUGIN = "net.peakresponse.android.atak.SHOW_PLUGIN"
+        private const val TAG = "net.peakresponse.android.atak.plugin.PluginDropDownReceiver"
+        public const val SHOW_PLUGIN = "net.peakresponse.android.atak.plugin.SHOW_PLUGIN"
     }
 
     private var state: PluginState = PluginState.STATE_INIT
@@ -68,7 +69,7 @@ class PluginDropDownReceiver(
                 when (state) {
                     PluginState.STATE_INIT -> {
                         CoroutineScope(Dispatchers.IO).launch {
-                            val response = PRAppData.me(pluginContext)
+                            val response = PRAppData.me(mapView.context)
                             if (response.isSuccessful) {
                                 state = PluginState.STATE_AUTHENTICATED
                                 withContext(Dispatchers.Main) {

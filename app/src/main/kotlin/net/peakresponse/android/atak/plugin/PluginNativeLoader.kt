@@ -7,7 +7,7 @@ import java.io.File
  * Boilerplate code for loading native.
  */
 object PluginNativeLoader {
-    private const val TAG = "NativeLoader"
+    private const val TAG = "net.peakresponse.android.atak.plugin.NativeLoader"
     private var ndl: String? = null
 
     /**

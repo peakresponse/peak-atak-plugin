@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/border_bottom"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/incidentNumberLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/PRh2Bold"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/addressLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/PRh4"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/timestampLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/PRh4" />
+</LinearLayout>

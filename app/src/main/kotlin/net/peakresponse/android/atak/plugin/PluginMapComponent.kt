@@ -6,10 +6,11 @@ import com.atakmap.android.dropdown.DropDownMapComponent
 import com.atakmap.android.ipc.AtakBroadcast.DocumentedIntentFilter
 import com.atakmap.android.maps.MapView
 import net.peakresponse.android.atak.plugin.R
+import net.peakresponse.android.shared.api.PRApiClient
 
 class PluginMapComponent : DropDownMapComponent() {
     companion object {
-        private const val TAG = "PluginMapComponent"
+        private const val TAG = "net.peakresponse.android.atak.plugin.PluginMapComponent"
     }
 
     private var context: Context? = null
@@ -19,6 +20,8 @@ class PluginMapComponent : DropDownMapComponent() {
         context.setTheme(R.style.ATAKPluginTheme)
         super.onCreate(context, intent, mapView)
         this.context = context
+
+        PRApiClient.API_URL = BuildConfig.API_URL
 
         dropDown = PluginDropDownReceiver(mapView, context)
         val filter = DocumentedIntentFilter()

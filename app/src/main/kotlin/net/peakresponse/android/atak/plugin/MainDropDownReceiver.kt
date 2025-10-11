@@ -39,7 +39,7 @@ class MainDropDownReceiver(
 ) : DropDownReceiver(mapView) {
 
     companion object {
-        const val TAG = "MainDropDownReceiver"
+        const val TAG = "net.peakresponse.android.atak.plugin.MainDropDownReceiver"
     }
 
     private val view: View
