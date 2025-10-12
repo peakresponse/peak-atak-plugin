@@ -40,9 +40,22 @@ class PluginDropDownReceiver(
     init {
         view = PluginLayoutInflater.inflate(pluginContext, R.layout.interstitial_layout, null)
         setRetain(false)
+
+        mainDropDown = MainDropDownReceiver(mapView, pluginContext)
+
         loginDropDown = LoginDropDownReceiver(mapView, pluginContext)
         loginDropDown.setRetain(false)
-        mainDropDown = MainDropDownReceiver(mapView, pluginContext)
+
+        loginDropDown.onAuthenticated = {
+            state = PluginState.STATE_AUTHENTICATED
+            mainDropDown.show()
+        }
+
+        mainDropDown.onLogout = {
+            state = PluginState.STATE_UNAUTHENTICATED
+            mainDropDown.setRetain(false)
+            loginDropDown.show()
+        }
     }
 
     override fun disposeImpl() {
@@ -56,11 +69,6 @@ class PluginDropDownReceiver(
         Log.d(TAG, "onReceive state=$state action=$action isClosed=$isClosed")
 
         when (action) {
-            LoginDropDownReceiver.SET_AUTHENTICATED -> {
-                state = PluginState.STATE_AUTHENTICATED
-                mainDropDown.show()
-            }
-
             SHOW_PLUGIN -> {
                 if (!isClosed) {
                     unhideDropDown()

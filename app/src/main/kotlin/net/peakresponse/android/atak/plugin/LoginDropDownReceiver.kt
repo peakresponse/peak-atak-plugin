@@ -26,8 +26,9 @@ class LoginDropDownReceiver(
 
     companion object {
         const val TAG = "net.peakresponse.android.atak.plugin.LoginDropDownReceiver"
-        public const val SET_AUTHENTICATED = "net.peakresponse.android.atak.SET_AUTHENTICATED"
     }
+
+    public var onAuthenticated: (() -> Unit)? = null
 
     private val view: View
     private val emailField: EditText
@@ -75,10 +76,13 @@ class LoginDropDownReceiver(
                     val response = PRAppData.me(mapView.context)
                     if (response.isSuccessful) {
                         Log.d(TAG, "Success Response = $response")
-                        AtakBroadcast.getInstance().sendBroadcast(
-                            Intent()
-                                .setAction(SET_AUTHENTICATED)
-                        )
+                        withContext(Dispatchers.Main) {
+                            submitButton.visibility = View.VISIBLE
+                            spinner.visibility = View.GONE
+                            emailField.text = null
+                            passwordField.text = null
+                        }
+                        onAuthenticated?.invoke()
                         return@launch
                     }
                 }

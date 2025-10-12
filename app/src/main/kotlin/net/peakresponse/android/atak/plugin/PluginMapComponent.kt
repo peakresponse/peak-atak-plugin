@@ -26,10 +26,6 @@ class PluginMapComponent : DropDownMapComponent() {
         dropDown = PluginDropDownReceiver(mapView, context)
         val filter = DocumentedIntentFilter()
         filter.addAction(PluginDropDownReceiver.SHOW_PLUGIN, "Show the Plugin drop-down")
-        filter.addAction(
-            LoginDropDownReceiver.SET_AUTHENTICATED,
-            "Sets the Plugin state to AUTHENTICATED"
-        )
         registerDropDownReceiver(dropDown, filter)
     }
 

@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-import net.peakresponse.android.atak.plugin.R
 import net.peakresponse.android.shared.PRAppData
 import net.peakresponse.android.shared.PRSettings
 import net.peakresponse.android.shared.models.IncidentWithScene
@@ -68,6 +67,10 @@ class IncidentWithSceneDiffer : DiffUtil.ItemCallback<IncidentWithScene>() {
 class IncidentsAdapter(
     val pluginContext: Context
 ) : ListAdapter<IncidentWithScene, IncidentCellHolder>(IncidentWithSceneDiffer()) {
+    companion object {
+        private const val TAG = "net.peakresponse.android.atak.plugin.IncidentsAdapter"
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IncidentCellHolder {
         val view = PluginLayoutInflater.inflate(
             pluginContext,
@@ -79,8 +82,11 @@ class IncidentsAdapter(
     }
 
     override fun onBindViewHolder(holder: IncidentCellHolder, position: Int) {
-        val incident = getItem(position)
-        holder.bind(incident)
+        val incidentWithScene = getItem(position)
+        holder.bind(incidentWithScene)
+        holder.itemView.setOnClickListener {
+            Log.d(TAG, "clicked on item ${incidentWithScene.incident.id}")
+        }
     }
 }
 
