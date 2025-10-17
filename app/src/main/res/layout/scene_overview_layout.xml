@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:stretchColumns="1,2,3">
+
+    <TableRow>
+
+        <TextView
+            android:layout_column="1"
+            android:text="@string/scene_overview_estimated"
+            android:padding="3dip"
+            android:textAppearance="@style/PRbodyBold" />
+
+        <TextView
+            android:text="@string/scene_overview_tagged"
+            android:padding="3dip"
+            android:textAppearance="@style/PRbodyBold" />
+
+        <TextView
+            android:text="@string/scene_overview_transported"
+            android:padding="3dip"
+            android:textAppearance="@style/PRbodyBold" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:text="@string/priority_all"
+            android:padding="3dip"
+            android:textAppearance="@style/PRbodyBold"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/approxPatientCount"
+            android:text="-"
+            android:gravity="center"
+            android:padding="3dip"
+            android:textColor="@color/white"
+            android:textAppearance="@style/PRbodyBold" />
+
+        <TextView
+            android:id="@+id/patientCount"
+            android:text="-"
+            android:gravity="center"
+            android:padding="3dip"
+            android:textColor="@color/white"
+            android:textAppearance="@style/PRbodyBold" />
+
+        <TextView
+            android:id="@+id/transpPatientCount"
+            android:text="-"
+            android:gravity="center"
+            android:padding="3dip"
+            android:textColor="@color/white"
+            android:textAppearance="@style/PRbodyBold" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:text="@string/priority_red"
+            android:padding="3dip"
+            android:textAppearance="@style/PRbodyBold"
+            android:textColor="@color/triageImmediateMedium" />
+
+        <TextView
+            android:id="@+id/approxPatientCountRed"
+            android:text="-"
+            android:gravity="center"
+            android:padding="3dip"
+            android:textColor="@color/triageImmediateMedium"
+            android:textAppearance="@style/PRbodyBold" />
+
+        <TextView
+            android:id="@+id/patientCountRed"
+            android:text="-"
+            android:gravity="center"
+            android:padding="3dip"
+            android:textColor="@color/triageImmediateMedium"
+            android:textAppearance="@style/PRbodyBold" />
+
+        <TextView
+            android:id="@+id/transpPatientCountRed"
+            android:text="-"
+            android:gravity="center"
+            android:padding="3dip"
+            android:textColor="@color/triageImmediateMedium"
+            android:textAppearance="@style/PRbodyBold" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:text="@string/priority_yellow"
+            android:padding="3dip"
+            android:textAppearance="@style/PRbodyBold"
+            android:textColor="@color/triageDelayedMedium" />
+
+        <TextView
+            android:id="@+id/approxPatientCountYellow"
+            android:text="-"
+            android:gravity="center"
+            android:padding="3dip"
+            android:textColor="@color/triageDelayedMedium"
+            android:textAppearance="@style/PRbodyBold" />
+
+        <TextView
+            android:id="@+id/patientCountYellow"
+            android:text="-"
+            android:gravity="center"
+            android:padding="3dip"
+            android:textColor="@color/triageDelayedMedium"
+            android:textAppearance="@style/PRbodyBold" />
+
+        <TextView
+            android:id="@+id/transpPatientCountYellow"
+            android:text="-"
+            android:gravity="center"
+            android:padding="3dip"
+            android:textColor="@color/triageDelayedMedium"
+            android:textAppearance="@style/PRbodyBold" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:text="@string/priority_green"
+            android:padding="3dip"
+            android:textAppearance="@style/PRbodyBold"
+            android:textColor="@color/triageMinorMedium" />
+
+        <TextView
+            android:id="@+id/approxPatientCountGreen"
+            android:text="-"
+            android:gravity="center"
+            android:padding="3dip"
+            android:textColor="@color/triageMinorMedium"
+            android:textAppearance="@style/PRbodyBold" />
+
+        <TextView
+            android:id="@+id/patientCountGreen"
+            android:text="-"
+            android:gravity="center"
+            android:padding="3dip"
+            android:textColor="@color/triageMinorMedium"
+            android:textAppearance="@style/PRbodyBold" />
+
+        <TextView
+            android:id="@+id/transpPatientCountGreen"
+            android:text="-"
+            android:gravity="center"
+            android:padding="3dip"
+            android:textColor="@color/triageMinorMedium"
+            android:textAppearance="@style/PRbodyBold" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:text="@string/priority_zebra"
+            android:padding="3dip"
+            android:textAppearance="@style/PRbodyBold"
+            android:textColor="@color/triageDeadLight" />
+
+        <TextView
+            android:id="@+id/approxPatientCountZebra"
+            android:text="-"
+            android:gravity="center"
+            android:padding="3dip"
+            android:textColor="@color/triageDeadLight"
+            android:textAppearance="@style/PRbodyBold" />
+
+        <TextView
+            android:id="@+id/patientCountZebra"
+            android:text="-"
+            android:gravity="center"
+            android:padding="3dip"
+            android:textColor="@color/triageDeadLight"
+            android:textAppearance="@style/PRbodyBold" />
+
+        <TextView
+            android:id="@+id/transpPatientCountZebra"
+            android:text="-"
+            android:gravity="center"
+            android:padding="3dip"
+            android:textColor="@color/triageDeadLight"
+            android:textAppearance="@style/PRbodyBold" />
+    </TableRow>
+
+</TableLayout>

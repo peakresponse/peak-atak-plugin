@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.atak.plugins.impl.PluginLayoutInflater
+import com.atakmap.coremap.log.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
@@ -151,6 +152,7 @@ class IncidentsFragment(
             }
             val db = PRAppData.getDb(it)
             val dao = db.getIncidentDao()
+            Log.d(TAG, "lifecyleOwner=$viewLifecycleOwner")
             viewLifecycleOwner.lifecycleScope.launch {
                 withContext(Dispatchers.IO) {
                     val incidentsFlow = dao.getActiveMciIncidentsWithScenes()

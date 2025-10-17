@@ -9,13 +9,14 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:logo="@drawable/peak_mark_white"
-        app:titleMarginStart="24dp" />
+        app:navigationIcon="@drawable/baseline_arrow_back_24"
+        app:contentInsetStartWithNavigation="0dp"
+        app:titleMarginStart="0dp" />
 
-    <!--    <com.google.android.material.tabs.TabLayout-->
-    <!--        android:id="@+id/tabLayout"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content" />-->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"

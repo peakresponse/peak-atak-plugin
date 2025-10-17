@@ -115,18 +115,18 @@ class PluginDropDownReceiver(
     }
 
     override fun onDropDownSelectionRemoved() {
-        Log.d(TAG, "onDropDownSelectionRemoved")
+        Log.d(TAG, "onDropDownSelectionRemoved=$this")
     }
 
     override fun onDropDownClose() {
-        Log.d(TAG, "onDropDownClose")
+        Log.d(TAG, "onDropDownClose=$this")
     }
 
     override fun onDropDownSizeChanged(width: Double, height: Double) {
-        Log.d(TAG, "onDropDownSizeChanged")
+        Log.d(TAG, "onDropDownSizeChanged=$this, $width, $height")
     }
 
     override fun onDropDownVisible(visible: Boolean) {
-        Log.d(TAG, "onDropDownVisible")
+        Log.d(TAG, "onDropDownVisible=$this, $visible")
     }
 }
