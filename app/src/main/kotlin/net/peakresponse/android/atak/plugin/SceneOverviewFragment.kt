@@ -100,6 +100,14 @@ class SceneOverviewFragment(
                     }
                 }
             }
+            countTextViews[2][0]?.text = "${scene.transpPatientsCount ?: "-"}"
+            scene.transpPriorityPatientsCounts?.let { transpPriorityPatientsCounts ->
+                for ((index, value) in transpPriorityPatientsCounts.withIndex()) {
+                    if (index < 5) {
+                        countTextViews[2][index + 1]?.text = "$value"
+                    }
+                }
+            }
             this.scene = null
         } else {
             this.scene = scene
