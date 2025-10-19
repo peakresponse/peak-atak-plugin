@@ -5,4 +5,10 @@
     <color name="darker_gray">#121212</color>
     <color name="heading_yellow">#dfb228</color>
 
+    <color name="triageImmediateMedium">#DB3838</color>
+    <color name="triageDelayedMedium">#FECC2F</color>
+    <color name="triageMinorMedium">#52D395</color>
+    <color name="triageDeadLight">#E4DDDD</color>
+    <color name="triageDeadMedium">#382525</color>
+
 </resources>

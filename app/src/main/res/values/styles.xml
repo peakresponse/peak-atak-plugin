@@ -130,4 +130,13 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">normal</item>
     </style>
+
+    <style name="PRbody" parent="TextAppearance.AppCompat.Body1">
+
+    </style>
+
+    <style name="PRbodyBold" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
