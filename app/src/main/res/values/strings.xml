@@ -8,6 +8,8 @@
     <string name="button_ok">OK</string>
     <string name="button_submit">Submit</string>
 
+    <string name="map_group_friendly_name">Peak Response Group</string>
+
     <string name="menu_logout">Log out</string>
 
     <string name="mcis_empty">No active MCIs.</string>
