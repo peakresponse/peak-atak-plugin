@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.view.View
 import com.atak.plugins.impl.PluginLayoutInflater
 import com.atakmap.android.dropdown.DropDown
+import com.atakmap.android.dropdown.DropDownManager
 import com.atakmap.android.dropdown.DropDownReceiver
 import com.atakmap.android.maps.MapView
 import com.atakmap.coremap.log.Log
@@ -25,6 +26,7 @@ enum class PluginState {
 
 class PluginDropDownReceiver(
     mapView: MapView,
+    private val mapOverlay: PluginMapOverlay,
     private val pluginContext: Context
 ) : DropDownReceiver(mapView), DropDown.OnStateListener {
     companion object {
@@ -41,7 +43,7 @@ class PluginDropDownReceiver(
         view = PluginLayoutInflater.inflate(pluginContext, R.layout.interstitial_layout, null)
         setRetain(false)
 
-        mainDropDown = MainDropDownReceiver(mapView, pluginContext)
+        mainDropDown = MainDropDownReceiver(mapView, mapOverlay, pluginContext)
 
         loginDropDown = LoginDropDownReceiver(mapView, pluginContext)
         loginDropDown.setRetain(false)

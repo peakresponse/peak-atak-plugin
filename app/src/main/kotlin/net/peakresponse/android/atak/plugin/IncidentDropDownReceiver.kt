@@ -30,6 +30,7 @@ import net.peakresponse.android.atak.plugin.components.TabFragmentPagerAdapter
 import net.peakresponse.android.shared.PRAppData
 import net.peakresponse.android.shared.models.ReportWithPatient
 import net.peakresponse.android.shared.models.Scene
+import net.peakresponse.android.shared.models.TriagePriority
 
 val MARKER_DRAWABLES = listOf(
     R.drawable.marker_immediate,
@@ -41,7 +42,8 @@ val MARKER_DRAWABLES = listOf(
 
 class IncidentDropDownReceiver(
     mapView: MapView,
-    val pluginContext: Context
+    private val mapOverlay: PluginMapOverlay,
+    private val pluginContext: Context
 ) : DropDownReceiver(mapView), DropDown.OnStateListener, View.OnAttachStateChangeListener {
     companion object {
         const val TAG = "net.peakresponse.android.atak.plugin.IncidentDropDownReceiver"
@@ -58,10 +60,12 @@ class IncidentDropDownReceiver(
         view = PluginLayoutInflater.inflate(pluginContext, R.layout.incident_layout)
         toolbar = view.findViewById<Toolbar>(R.id.toolbar)
         viewPager = view.findViewById<ViewPager2>(R.id.viewPager)
+        viewPager.isSaveEnabled = false
 
         view.addOnAttachStateChangeListener(this)
         toolbar.setNavigationOnClickListener {
             closeDropDown()
+            removeAllMarkers()
         }
 
         fragments = ArrayList<TabFragment>()
@@ -74,17 +78,31 @@ class IncidentDropDownReceiver(
         }.attach()
     }
 
-    fun show(incidentId: String) {
-        this.incidentId = incidentId
+    fun removeAllMarkers() {
+        val group = mapOverlay.rootGroup!!
+        for (item in group.items) {
+            group.removeItem(item)
+        }
+    }
+
+    fun show() {
+        Log.d(TAG, "IncidentDropDownReceiver show, isClosed=${isClosed}, isVisible=${isVisible}")
         showDropDown(view, THIRD_WIDTH, FULL_HEIGHT, FULL_WIDTH, HALF_HEIGHT, false, this)
     }
 
-    override fun disposeImpl() {
+    fun show(incidentId: String) {
+        this.incidentId = incidentId
+        PRAppData.connectScene(mapView.context, incidentId)
+        show()
+    }
 
+    override fun disposeImpl() {
+        Log.d(TAG, "IncidentDropDownReceiver.disposeIml")
+        PRAppData.disconnectScene()
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
-
+        Log.d(TAG, "IncidentDropDownReceiver.onReceive context=${context}, intent=${intent}")
     }
 
     override fun onViewAttachedToWindow(view: View) {
@@ -109,7 +127,6 @@ class IncidentDropDownReceiver(
                         }
                         if (sceneFlow == null) {
                             incident.sceneId?.let { sceneId ->
-                                PRAppData.connectScene(mapView.context, sceneId)
                                 sceneFlow = sceneDao.getScene(sceneId)
                                     .distinctUntilChanged()
                                     .flowWithLifecycle(
@@ -139,8 +156,7 @@ class IncidentDropDownReceiver(
                                 reportsFlow.collect { reports ->
                                     Log.d(TAG, "reports=$reports")
                                     withContext(Dispatchers.Main) {
-                                        val mapGroup =
-                                            mapView.rootGroup.findMapGroup(pluginContext.getString(R.string.map_group_friendly_name))
+                                        val mapGroup = mapOverlay.rootGroup!!
                                         for (reportWithPatient in reports) {
                                             var point: GeoPoint? = null
                                             reportWithPatient.patient?.lat?.let { lat ->
@@ -171,6 +187,15 @@ class IncidentDropDownReceiver(
                                                         false
                                                     )
                                                 }
+                                                reportWithPatient.report.filterPriority?.let { filterPriority ->
+                                                    if (filterPriority > TriagePriority.DEAD.ordinal) {
+                                                        Log.d(
+                                                            TAG,
+                                                            "removing marker ${marker.title}"
+                                                        )
+                                                        mapGroup.removeItem(marker)
+                                                    }
+                                                }
                                             } ?: run {
                                                 val marker =
                                                     mapGroup.deepFindUID(reportWithPatient.report.id) as? Marker
@@ -191,7 +216,6 @@ class IncidentDropDownReceiver(
 
     override fun onViewDetachedFromWindow(view: View) {
         Log.d(TAG, "onViewDetachedFromWindow")
-        PRAppData.disconnectScene()
     }
 
     override fun onDropDownSelectionRemoved() {

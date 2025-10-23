@@ -23,9 +23,11 @@ import net.peakresponse.android.atak.plugin.R
 import net.peakresponse.android.atak.plugin.components.TabFragment
 import net.peakresponse.android.atak.plugin.components.TabFragmentPagerAdapter
 import net.peakresponse.android.shared.PRAppData
+import net.peakresponse.android.shared.PRSettings
 
 class MainDropDownReceiver(
     mapView: MapView,
+    private val mapOverlay: PluginMapOverlay,
     private val pluginContext: Context
 ) : DropDownReceiver(mapView), Toolbar.OnMenuItemClickListener {
 
@@ -48,7 +50,7 @@ class MainDropDownReceiver(
         toolbar.setOnMenuItemClickListener(this)
         viewPager = view.findViewById<ViewPager2>(R.id.viewPager)
         viewPager.isSaveEnabled = false
-        incidentDropDown = IncidentDropDownReceiver(mapView, pluginContext)
+        incidentDropDown = IncidentDropDownReceiver(mapView, mapOverlay, pluginContext)
 
         val fragments = ArrayList<TabFragment>()
         val incidentsFragment = IncidentsFragment(pluginContext)
@@ -56,6 +58,7 @@ class MainDropDownReceiver(
             Log.d(TAG, "incident id=${incidentId} selected")
             setRetain(true)
             incidentDropDown.show(incidentId)
+            incidentDropDown.setRetain(true)
         }
         fragments.add(incidentsFragment)
         viewPager.adapter = TabFragmentPagerAdapter(mapView.context as FragmentActivity, fragments)
@@ -67,7 +70,15 @@ class MainDropDownReceiver(
     }
 
     fun show() {
+        Log.d(
+            TAG,
+            "show MainDropDown, isClosed=${isClosed}, incidentDropDown.isClosed=${incidentDropDown.isClosed}"
+        )
+        val incidentIsClosed = incidentDropDown.isClosed
         showDropDown(view, THIRD_WIDTH, FULL_HEIGHT, FULL_WIDTH, HALF_HEIGHT)
+        if (!incidentIsClosed) {
+            incidentDropDown.show()
+        }
     }
 
     override fun disposeImpl() {
